@@ -50,12 +50,14 @@ jobs:
       - name: Build solution
         run: dotnet build RepoLeveling.sln --configuration Release --no-restore
 
-      - name: Package Thunderstore zip
-        run: bash thunderstore_build.sh
-
-      - name: Upload Thunderstore package
+      - name: Upload Thunderstore package artifact
         uses: actions/upload-artifact@v5
         with:
           name: thunderstore-package-${{ github.sha }}
-          path: thunderstore.zip
+          path: |
+            CHANGELOG.md
+            icon.png
+            manifest.json
+            README.md
+            RepoLeveling/bin/Release/netstandard2.1/RepoLeveling.dll
           if-no-files-found: error
