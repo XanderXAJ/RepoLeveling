@@ -14,6 +14,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Download MenuLib from Thunderstore
+        run: |
+          $url = "https://thunderstore.io/package/download/nickklmao/MenuLib/2.5.0/"
+          $zip = "MenuLib.zip"
+          $extractPath = "MenuLibExtract"
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath $extractPath -Force
+          $dll = Get-ChildItem -Path $extractPath -Recurse -Filter MenuLib.dll | Select-Object -First 1
+          $targetDir = "BepInEx/plugins/nickklmao-MenuLib"
+          New-Item -ItemType Directory -Force -Path $targetDir
+          Copy-Item -Path $dll.FullName -Destination "$targetDir/MenuLib.dll" -Force
+        shell: pwsh
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v5
         with:
