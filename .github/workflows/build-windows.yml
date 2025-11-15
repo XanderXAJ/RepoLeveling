@@ -1,0 +1,43 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Restore dependencies
+        run: dotnet restore RepoLeveling.sln
+
+      - name: Build solution
+        run: dotnet build RepoLeveling.sln --configuration Release --no-restore
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: RepoLeveling-Build-${{ github.sha }}
+          path: |
+            RepoLeveling/bin/Release/**/*.dll
+            RepoLeveling/bin/Release/**/*.pdb
+          if-no-files-found: error
