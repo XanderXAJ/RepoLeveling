@@ -18,13 +18,25 @@ jobs:
         run: choco install zip -y
         shell: pwsh
 
+      - name: Set MenuLib version
+        run: echo "MENULIB_VERSION=2.5.0" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Cache MenuLib package and DLL
+        uses: actions/cache@v4
+        with:
+          path: |
+            RepoLeveling/BepInEx/plugins/nickklmao-MenuLib/MenuLib.dll
+          key: menulib-${{ env.MENULIB_VERSION }}
+
       - name: Download MenuLib from Thunderstore
         run: |
-          $url = "https://thunderstore.io/package/download/nickklmao/MenuLib/2.5.0/"
-          $zip = "MenuLib.zip"
           $extractPath = "MenuLibExtract"
-          Invoke-WebRequest -Uri $url -OutFile $zip
-          Expand-Archive -Path $zip -DestinationPath $extractPath -Force
+          if (!(Test-Path RepoLeveling/BepInEx/plugins/nickklmao-MenuLib/MenuLib.dll)) {
+            $url = "https://thunderstore.io/package/download/nickklmao/MenuLib/$env:MENULIB_VERSION/"
+            Invoke-WebRequest -Uri $url -OutFile MenuLib.zip
+          }
+          Expand-Archive -Path MenuLib.zip -DestinationPath $extractPath -Force
           $dll = Get-ChildItem -Path $extractPath -Recurse -Filter MenuLib.dll | Select-Object -First 1
           $targetDir = "RepoLeveling/BepInEx/plugins/nickklmao-MenuLib"
           New-Item -ItemType Directory -Force -Path $targetDir
