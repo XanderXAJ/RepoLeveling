@@ -35,8 +35,8 @@ jobs:
           if (!(Test-Path RepoLeveling/BepInEx/plugins/nickklmao-MenuLib/MenuLib.dll)) {
             $url = "https://thunderstore.io/package/download/nickklmao/MenuLib/$env:MENULIB_VERSION/"
             Invoke-WebRequest -Uri $url -OutFile MenuLib.zip
+            Expand-Archive -Path MenuLib.zip -DestinationPath $extractPath -Force
           }
-          Expand-Archive -Path MenuLib.zip -DestinationPath $extractPath -Force
           $dll = Get-ChildItem -Path $extractPath -Recurse -Filter MenuLib.dll | Select-Object -First 1
           $targetDir = "RepoLeveling/BepInEx/plugins/nickklmao-MenuLib"
           New-Item -ItemType Directory -Force -Path $targetDir
