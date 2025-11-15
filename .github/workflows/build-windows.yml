@@ -50,14 +50,15 @@ jobs:
       - name: Build solution
         run: dotnet build RepoLeveling.sln --configuration Release --no-restore
 
+      - name: Prepare staging area for artifact
+        run: |
+          mkdir -p staging
+          cp CHANGELOG.md icon.png manifest.json README.md RepoLeveling/bin/Release/netstandard2.1/RepoLeveling.dll staging/
+        shell: bash
+
       - name: Upload Thunderstore package artifact
         uses: actions/upload-artifact@v5
         with:
           name: thunderstore-package-${{ github.sha }}
-          path: |
-            CHANGELOG.md
-            icon.png
-            manifest.json
-            README.md
-            RepoLeveling/bin/Release/netstandard2.1/RepoLeveling.dll
+          path: staging/*
           if-no-files-found: error
