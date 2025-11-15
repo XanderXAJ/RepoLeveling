@@ -14,6 +14,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
+      - name: Install zip utility
+        run: choco install zip -y
+        shell: pwsh
+
       - name: Download MenuLib from Thunderstore
         run: |
           $url = "https://thunderstore.io/package/download/nickklmao/MenuLib/2.5.0/"
