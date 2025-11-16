@@ -31,15 +31,15 @@ jobs:
       - name: Download MenuLib from Thunderstore
         run: |
           $extractPath = "MenuLibExtract"
-          if (!(Test-Path RepoLeveling/BepInEx/plugins/nickklmao-MenuLib/MenuLib.dll)) {
+          $targetDir = "RepoLeveling/BepInEx/plugins/nickklmao-MenuLib"
+          if (!(Test-Path "$targetDir/MenuLib.dll")) {
             $url = "https://thunderstore.io/package/download/nickklmao/MenuLib/$env:MENULIB_VERSION/"
             Invoke-WebRequest -Uri $url -OutFile MenuLib.zip
             Expand-Archive -Path MenuLib.zip -DestinationPath $extractPath -Force
+            $dll = Get-ChildItem -Path $extractPath -Recurse -Filter MenuLib.dll | Select-Object -First 1
+            New-Item -ItemType Directory -Force -Path $targetDir
+            Copy-Item -Path $dll.FullName -Destination "$targetDir/MenuLib.dll" -Force
           }
-          $dll = Get-ChildItem -Path $extractPath -Recurse -Filter MenuLib.dll | Select-Object -First 1
-          $targetDir = "RepoLeveling/BepInEx/plugins/nickklmao-MenuLib"
-          New-Item -ItemType Directory -Force -Path $targetDir
-          Copy-Item -Path $dll.FullName -Destination "$targetDir/MenuLib.dll" -Force
         shell: pwsh
 
       - name: Setup .NET
