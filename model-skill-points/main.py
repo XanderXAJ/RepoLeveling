@@ -17,13 +17,17 @@ def main():
     plt.ylabel("Skill Points")
     plt.title(f"Skill Points vs Cumulative Haul (0 to {max})")
     plt.grid(True)
+
     # Set y-axis ticks to whole numbers only
     ax = plt.gca()
     ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+
     # Add 'K' to x-axis tick labels
-    def add_k(x, pos):
+    def add_k(x):
         return f"{int(x)}K"
+
     ax.xaxis.set_major_formatter(FuncFormatter(add_k))
+
     plt.show()
 
 
