@@ -18,7 +18,7 @@ jobs:
         shell: pwsh
 
       - name: Set MenuLib version
-        run: echo "MENULIB_VERSION=2.5.0" >> $GITHUB_ENV
+        run: echo "MENULIB_VERSION=2.5.1" >> $GITHUB_ENV
         shell: bash
 
       - name: Cache MenuLib package and DLL
