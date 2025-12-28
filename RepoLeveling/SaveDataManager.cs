@@ -114,10 +114,10 @@ public static class SaveDataManager
 
     public static void ApplySkills(bool force = false)
     {
-        if (!force && StatsManager.instance.FetchPlayerUpgrades(PlayerAvatar.instance.steamID).Values.Any(v => v != 0)) return;
-        
+        if (!force && StatsManager.instance.FetchPlayerUpgrades(PlayerController.instance.playerSteamID).Values.Any(v => v != 0)) return;
+
         RepoLeveling.Logger.LogDebug("Applying skill points...");
-        
+
         PunManager.instance.UpdateStat("playerUpgradeDeathHeadBattery", PlayerController.instance.playerSteamID,
             SaveDeathHeadBattery.Value);
 
