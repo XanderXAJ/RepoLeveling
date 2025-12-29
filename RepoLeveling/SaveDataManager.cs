@@ -141,31 +141,31 @@ public static class SaveDataManager
 
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
-        StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID] +=
             SaveCrouchRest.Value;
-        StatsManager.instance.playerUpgradeDeathHeadBattery[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeDeathHeadBattery[PlayerController.instance.playerSteamID] +=
             SaveDeathHeadBattery.Value;
-        StatsManager.instance.playerUpgradeExtraJump[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeExtraJump[PlayerController.instance.playerSteamID] +=
             SaveExtraJump.Value;
-        StatsManager.instance.playerUpgradeHealth[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeHealth[PlayerController.instance.playerSteamID] +=
             SaveHealth.Value;
-        StatsManager.instance.playerUpgradeLaunch[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeLaunch[PlayerController.instance.playerSteamID] +=
             SaveTumbleLaunch.Value;
-        StatsManager.instance.playerUpgradeMapPlayerCount[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeMapPlayerCount[PlayerController.instance.playerSteamID] +=
             SaveMapPlayerCount.Value;
-        StatsManager.instance.playerUpgradeRange[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeRange[PlayerController.instance.playerSteamID] +=
             SaveGrabRange.Value;
-        StatsManager.instance.playerUpgradeSpeed[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeSpeed[PlayerController.instance.playerSteamID] +=
             SaveSprintSpeed.Value;
-        StatsManager.instance.playerUpgradeStamina[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeStamina[PlayerController.instance.playerSteamID] +=
             SaveEnergy.Value;
-        StatsManager.instance.playerUpgradeStrength[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeStrength[PlayerController.instance.playerSteamID] +=
             SaveGrabStrength.Value;
-        StatsManager.instance.playerUpgradeThrow[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeThrow[PlayerController.instance.playerSteamID] +=
             SaveGrabThrow.Value;
-        StatsManager.instance.playerUpgradeTumbleClimb[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeTumbleClimb[PlayerController.instance.playerSteamID] +=
             SaveTumbleClimb.Value;
-        StatsManager.instance.playerUpgradeTumbleWings[PlayerController.instance.playerSteamID] =
+        StatsManager.instance.playerUpgradeTumbleWings[PlayerController.instance.playerSteamID] +=
             SaveTumbleWings.Value;
 
         RepoLeveling.Logger.LogDebug("Skill points applied.");
