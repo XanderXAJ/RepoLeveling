@@ -9,6 +9,7 @@ internal static class PunManagerPatch
     private static void ReceiveSyncData_Postfix(bool finalChunk)
     {
         if (!finalChunk) return;
+        RepoLeveling.Logger.LogInfo("ReceiveSyncData_Postfix: Conditions met for applying skills.");
         RepoLeveling.Logger.LogDebug("Client sync complete.");
         SaveDataManager.ApplySkills();
     }
