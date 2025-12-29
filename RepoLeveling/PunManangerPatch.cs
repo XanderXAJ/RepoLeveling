@@ -11,6 +11,6 @@ internal static class PunManagerPatch
         if (!finalChunk) return;
         RepoLeveling.Logger.LogInfo("ReceiveSyncData_Postfix: Conditions met for applying skills.");
         RepoLeveling.Logger.LogDebug("Client sync complete.");
-        SaveDataManager.ApplySkills(true);
+        SaveDataManager.ApplySkills();
     }
 }
