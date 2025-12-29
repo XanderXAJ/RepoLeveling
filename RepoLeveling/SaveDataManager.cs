@@ -121,16 +121,16 @@ public static class SaveDataManager
 
         // Log all current saved skill values
         RepoLeveling.Logger.LogInfo("Current stored skills: " +
-            $" DeathHeadBattery: {SaveDeathHeadBattery.Value}," +
-            $" MapPlayerCount: {SaveMapPlayerCount.Value}," +
             $" CrouchRest: {SaveCrouchRest.Value}," +
-            $" Energy: {SaveEnergy.Value}," +
+            $" DeathHeadBattery: {SaveDeathHeadBattery.Value}," +
             $" ExtraJump: {SaveExtraJump.Value}," +
             $" GrabRange: {SaveGrabRange.Value}," +
             $" GrabStrength: {SaveGrabStrength.Value}," +
             $" GrabThrow: {SaveGrabThrow.Value}," +
             $" Health: {SaveHealth.Value}," +
+            $" MapPlayerCount: {SaveMapPlayerCount.Value}," +
             $" SprintSpeed: {SaveSprintSpeed.Value}," +
+            $" Stamina: {SaveEnergy.Value}," +
             $" TumbleClimb: {SaveTumbleClimb.Value}," +
             $" TumbleLaunch: {SaveTumbleLaunch.Value}," +
             $" TumbleWings: {SaveTumbleWings.Value}");
