@@ -120,7 +120,7 @@ public static class SaveDataManager
         if (!force && StatsManager.instance.FetchPlayerUpgrades(PlayerController.instance.playerSteamID).Values.Any(v => v != 0)) return;
 
         // Log all current saved skill values
-        RepoLeveling.Logger.LogInfo("Current skills: " +
+        RepoLeveling.Logger.LogInfo("Current stored skills: " +
             $" DeathHeadBattery: {SaveDeathHeadBattery.Value}," +
             $" MapPlayerCount: {SaveMapPlayerCount.Value}," +
             $" CrouchRest: {SaveCrouchRest.Value}," +
