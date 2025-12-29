@@ -114,7 +114,24 @@ public static class SaveDataManager
 
     public static void ApplySkills(bool force = false)
     {
+        RepoLeveling.Logger.LogInfo($"Applying skills for {PlayerController.instance.playerSteamID}...");
         if (!force && StatsManager.instance.FetchPlayerUpgrades(PlayerController.instance.playerSteamID).Values.Any(v => v != 0)) return;
+
+        // Log all current saved skill values
+        RepoLeveling.Logger.LogInfo("Current skills: " +
+            $" DeathHeadBattery: {SaveDeathHeadBattery.Value}," +
+            $" MapPlayerCount: {SaveMapPlayerCount.Value}," +
+            $" CrouchRest: {SaveCrouchRest.Value}," +
+            $" Energy: {SaveEnergy.Value}," +
+            $" ExtraJump: {SaveExtraJump.Value}," +
+            $" GrabRange: {SaveGrabRange.Value}," +
+            $" GrabStrength: {SaveGrabStrength.Value}," +
+            $" GrabThrow: {SaveGrabThrow.Value}," +
+            $" Health: {SaveHealth.Value}," +
+            $" SprintSpeed: {SaveSprintSpeed.Value}," +
+            $" TumbleClimb: {SaveTumbleClimb.Value}," +
+            $" TumbleLaunch: {SaveTumbleLaunch.Value}," +
+            $" TumbleWings: {SaveTumbleWings.Value}");
 
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
