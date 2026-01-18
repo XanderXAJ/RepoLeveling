@@ -194,19 +194,19 @@ public static class SaveDataManager
         }
 
         RepoLeveling.Logger.LogInfo("Final applied skill points: " +
-            $" CrouchRest: {StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID]}," +
-            $" DeathHeadBattery: {StatsManager.instance.playerUpgradeDeathHeadBattery[PlayerController.instance.playerSteamID]}," +
-            $" ExtraJump: {StatsManager.instance.playerUpgradeExtraJump[PlayerController.instance.playerSteamID]}," +
-            $" GrabRange: {StatsManager.instance.playerUpgradeRange[PlayerController.instance.playerSteamID]}," +
-            $" GrabStrength: {StatsManager.instance.playerUpgradeStrength[PlayerController.instance.playerSteamID]}," +
-            $" GrabThrow: {StatsManager.instance.playerUpgradeThrow[PlayerController.instance.playerSteamID]}," +
-            $" Health: {StatsManager.instance.playerUpgradeHealth[PlayerController.instance.playerSteamID]}," +
-            $" MapPlayerCount: {StatsManager.instance.playerUpgradeMapPlayerCount[PlayerController.instance.playerSteamID]}," +
-            $" SprintSpeed: {StatsManager.instance.playerUpgradeSpeed[PlayerController.instance.playerSteamID]}," +
-            $" Stamina: {StatsManager.instance.playerUpgradeStamina[PlayerController.instance.playerSteamID]}," +
-            $" TumbleClimb: {StatsManager.instance.playerUpgradeTumbleClimb[PlayerController.instance.playerSteamID]}," +
-            $" TumbleLaunch: {StatsManager.instance.playerUpgradeLaunch[PlayerController.instance.playerSteamID]}," +
-            $" TumbleWings: {StatsManager.instance.playerUpgradeTumbleWings[PlayerController.instance.playerSteamID]}");
+            $" CrouchRest: {StatsManager.instance.playerUpgradeCrouchRest[playerSteamID]}," +
+            $" DeathHeadBattery: {StatsManager.instance.playerUpgradeDeathHeadBattery[playerSteamID]}," +
+            $" ExtraJump: {StatsManager.instance.playerUpgradeExtraJump[playerSteamID]}," +
+            $" GrabRange: {StatsManager.instance.playerUpgradeRange[playerSteamID]}," +
+            $" GrabStrength: {StatsManager.instance.playerUpgradeStrength[playerSteamID]}," +
+            $" GrabThrow: {StatsManager.instance.playerUpgradeThrow[playerSteamID]}," +
+            $" Health: {StatsManager.instance.playerUpgradeHealth[playerSteamID]}," +
+            $" MapPlayerCount: {StatsManager.instance.playerUpgradeMapPlayerCount[playerSteamID]}," +
+            $" SprintSpeed: {StatsManager.instance.playerUpgradeSpeed[playerSteamID]}," +
+            $" Stamina: {StatsManager.instance.playerUpgradeStamina[playerSteamID]}," +
+            $" TumbleClimb: {StatsManager.instance.playerUpgradeTumbleClimb[playerSteamID]}," +
+            $" TumbleLaunch: {StatsManager.instance.playerUpgradeLaunch[playerSteamID]}," +
+            $" TumbleWings: {StatsManager.instance.playerUpgradeTumbleWings[playerSteamID]}");
 
         RepoLeveling.Logger.LogDebug("Skill points applied.");
     }
