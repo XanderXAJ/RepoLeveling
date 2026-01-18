@@ -173,7 +173,7 @@ public static class SaveDataManager
 
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
-        string playerSteamID = PlayerController.instance.playerSteamID;
+        string playerSteamID = PlayerAvatar.instance.steamID;
 
         void SendUpgradeRPC(string fullKey, int amount)
         {
