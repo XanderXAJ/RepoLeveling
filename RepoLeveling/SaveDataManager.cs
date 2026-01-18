@@ -140,32 +140,32 @@ public static class SaveDataManager
 
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
-        StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID] +=
-            SaveCrouchRest.Value;
-        StatsManager.instance.playerUpgradeDeathHeadBattery[PlayerController.instance.playerSteamID] +=
-            SaveDeathHeadBattery.Value;
-        StatsManager.instance.playerUpgradeExtraJump[PlayerController.instance.playerSteamID] +=
-            SaveExtraJump.Value;
-        StatsManager.instance.playerUpgradeHealth[PlayerController.instance.playerSteamID] +=
-            SaveHealth.Value;
-        StatsManager.instance.playerUpgradeLaunch[PlayerController.instance.playerSteamID] +=
-            SaveTumbleLaunch.Value;
-        StatsManager.instance.playerUpgradeMapPlayerCount[PlayerController.instance.playerSteamID] +=
-            SaveMapPlayerCount.Value;
-        StatsManager.instance.playerUpgradeRange[PlayerController.instance.playerSteamID] +=
-            SaveGrabRange.Value;
-        StatsManager.instance.playerUpgradeSpeed[PlayerController.instance.playerSteamID] +=
-            SaveSprintSpeed.Value;
-        StatsManager.instance.playerUpgradeStamina[PlayerController.instance.playerSteamID] +=
-            SaveEnergy.Value;
-        StatsManager.instance.playerUpgradeStrength[PlayerController.instance.playerSteamID] +=
-            SaveGrabStrength.Value;
-        StatsManager.instance.playerUpgradeThrow[PlayerController.instance.playerSteamID] +=
-            SaveGrabThrow.Value;
-        StatsManager.instance.playerUpgradeTumbleClimb[PlayerController.instance.playerSteamID] +=
-            SaveTumbleClimb.Value;
-        StatsManager.instance.playerUpgradeTumbleWings[PlayerController.instance.playerSteamID] +=
-            SaveTumbleWings.Value;
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeCrouchRest", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID] + SaveCrouchRest.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeDeathHeadBattery", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeDeathHeadBattery[PlayerController.instance.playerSteamID] + SaveDeathHeadBattery.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeExtraJump", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeExtraJump[PlayerController.instance.playerSteamID] + SaveExtraJump.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeHealth", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeHealth[PlayerController.instance.playerSteamID] + SaveHealth.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeLaunch", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeLaunch[PlayerController.instance.playerSteamID] + SaveTumbleLaunch.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeMapPlayerCount", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeMapPlayerCount[PlayerController.instance.playerSteamID] + SaveMapPlayerCount.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeRange", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeRange[PlayerController.instance.playerSteamID] + SaveGrabRange.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeSpeed", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeSpeed[PlayerController.instance.playerSteamID] + SaveSprintSpeed.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeStamina", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeStamina[PlayerController.instance.playerSteamID] + SaveEnergy.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeStrength", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeStrength[PlayerController.instance.playerSteamID] + SaveGrabStrength.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeThrow", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeThrow[PlayerController.instance.playerSteamID] + SaveGrabThrow.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeTumbleClimb", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeTumbleClimb[PlayerController.instance.playerSteamID] + SaveTumbleClimb.Value);
+        StatsManager.instance.DictionaryUpdateValue("playerUpgradeTumbleWings", PlayerController.instance.playerSteamID,
+            StatsManager.instance.playerUpgradeTumbleWings[PlayerController.instance.playerSteamID] + SaveTumbleWings.Value);
 
         RepoLeveling.Logger.LogInfo("Final applied skill points: " +
             $" CrouchRest: {StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID]}," +
