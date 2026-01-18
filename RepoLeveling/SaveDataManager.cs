@@ -162,7 +162,7 @@ public static class SaveDataManager
         PunManager.instance.UpgradePlayerTumbleLaunch(playerSteamID, SaveTumbleLaunch.Value);
         PunManager.instance.UpgradePlayerTumbleWings(playerSteamID, SaveTumbleWings.Value);
 
-        RepoLeveling.Logger.LogInfo("Final applied skill points: " +
+        RepoLeveling.Logger.LogInfo($"Final applied skill points for {playerName} ({playerSteamID}): " +
             $" CrouchRest: {StatsManager.instance.playerUpgradeCrouchRest[playerSteamID]}," +
             $" DeathHeadBattery: {StatsManager.instance.playerUpgradeDeathHeadBattery[playerSteamID]}," +
             $" ExtraJump: {StatsManager.instance.playerUpgradeExtraJump[playerSteamID]}," +
