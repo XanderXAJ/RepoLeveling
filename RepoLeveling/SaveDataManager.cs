@@ -174,10 +174,12 @@ public static class SaveDataManager
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
         string playerSteamID = PlayerAvatar.instance.steamID;
+        string playerName = PlayerAvatar.instance.playerName;
 
         void SendUpgradeRPC(string fullKey, int amount)
         {
             string command = fullKey.Substring("playerUpgrade".Length);
+            RepoLeveling.Logger.LogInfo($"Sending RPC to {playerName} ({playerSteamID}) for upgrade {command} with amount {amount}.");
             punView.RPC("TesterUpgradeCommandRPC", RpcTarget.All, playerSteamID, command, amount);
         }
 
