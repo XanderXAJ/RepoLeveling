@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BepInEx.Configuration;
+using Photon.Pun;
 using Photon.Realtime;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
@@ -27,6 +29,9 @@ public static class SaveDataManager
     public static ConfigEntry<int> SaveTumbleClimb;
     public static ConfigEntry<int> SaveTumbleLaunch;
     public static ConfigEntry<int> SaveTumbleWings;
+
+    // Mapping of full key names (with "playerUpgrade") to their save config entries
+    private static Dictionary<string, ConfigEntry<int>> upgradeKeyToSaveData = null!;
 
     internal static void Initialize()
     {
@@ -87,6 +92,24 @@ public static class SaveDataManager
             new ConfigDescription(
                 "The amount of tumble wings upgrades you've skilled. Set to 0 to regain spent skill points.",
                 new AcceptableValueRange<int>(0, int.MaxValue)));
+
+        // Initialize the mapping dictionary after all config entries are created
+        upgradeKeyToSaveData = new Dictionary<string, ConfigEntry<int>>
+        {
+            { "playerUpgradeCrouchRest", SaveCrouchRest },
+            { "playerUpgradeDeathHeadBattery", SaveDeathHeadBattery },
+            { "playerUpgradeExtraJump", SaveExtraJump },
+            { "playerUpgradeHealth", SaveHealth },
+            { "playerUpgradeLaunch", SaveTumbleLaunch },
+            { "playerUpgradeMapPlayerCount", SaveMapPlayerCount },
+            { "playerUpgradeRange", SaveGrabRange },
+            { "playerUpgradeSpeed", SaveSprintSpeed },
+            { "playerUpgradeStamina", SaveEnergy },
+            { "playerUpgradeStrength", SaveGrabStrength },
+            { "playerUpgradeThrow", SaveGrabThrow },
+            { "playerUpgradeTumbleClimb", SaveTumbleClimb },
+            { "playerUpgradeTumbleWings", SaveTumbleWings }
+        };
     }
 
     public static void ResetProgress()
@@ -119,6 +142,13 @@ public static class SaveDataManager
         RepoLeveling.Logger.LogInfo($"Applying skills for {PlayerController.instance.playerSteamID}...");
         if (!force && StatsManager.instance.FetchPlayerUpgrades(PlayerController.instance.playerSteamID).Values.Any(v => v != 0)) return;
 
+        PhotonView punView = PunManager.instance.GetComponent<PhotonView>();
+        if (punView == null)
+        {
+            RepoLeveling.Logger.LogError("PunManager PhotonView not found!");
+            return;
+        }
+
         RepoLeveling.Logger.LogInfo("Current stored skills: " +
             $" CrouchRest: {SaveCrouchRest.Value}," +
             $" DeathHeadBattery: {SaveDeathHeadBattery.Value}," +
@@ -137,35 +167,31 @@ public static class SaveDataManager
         // Example of modifying strength for non-host players:
         //     StatsManager.instance.playerUpgradeStrength[SemiFunc.PlayerGetSteamID(PlayerAvatar.instance)]++;
         // Source: https://thunderstore.io/c/repo/p/Lillious_Networks/REPO_Mod_Library/source/
+        //
+        // Example of using RPC to perform upgrades
+        // Source: https://github.com/W1ll-Gale/REPO.BetterTeamUpgrades/tree/main
 
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeCrouchRest", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID] + SaveCrouchRest.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeDeathHeadBattery", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeDeathHeadBattery[PlayerController.instance.playerSteamID] + SaveDeathHeadBattery.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeExtraJump", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeExtraJump[PlayerController.instance.playerSteamID] + SaveExtraJump.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeHealth", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeHealth[PlayerController.instance.playerSteamID] + SaveHealth.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeLaunch", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeLaunch[PlayerController.instance.playerSteamID] + SaveTumbleLaunch.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeMapPlayerCount", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeMapPlayerCount[PlayerController.instance.playerSteamID] + SaveMapPlayerCount.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeRange", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeRange[PlayerController.instance.playerSteamID] + SaveGrabRange.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeSpeed", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeSpeed[PlayerController.instance.playerSteamID] + SaveSprintSpeed.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeStamina", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeStamina[PlayerController.instance.playerSteamID] + SaveEnergy.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeStrength", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeStrength[PlayerController.instance.playerSteamID] + SaveGrabStrength.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeThrow", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeThrow[PlayerController.instance.playerSteamID] + SaveGrabThrow.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeTumbleClimb", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeTumbleClimb[PlayerController.instance.playerSteamID] + SaveTumbleClimb.Value);
-        StatsManager.instance.DictionaryUpdateValue("playerUpgradeTumbleWings", PlayerController.instance.playerSteamID,
-            StatsManager.instance.playerUpgradeTumbleWings[PlayerController.instance.playerSteamID] + SaveTumbleWings.Value);
+        string playerSteamID = PlayerController.instance.playerSteamID;
+
+        void SendUpgradeRPC(string fullKey, int amount)
+        {
+            string command = fullKey.Substring("playerUpgrade".Length);
+            punView.RPC("TesterUpgradeCommandRPC", RpcTarget.All, playerSteamID, command, amount);
+        }
+
+        // Loop through all upgrades and apply them via RPC
+        foreach (var kvp in upgradeKeyToSaveData)
+        {
+            string fullKey = kvp.Key;
+            int amount = kvp.Value.Value;
+
+            if (amount > 0)
+            {
+                SendUpgradeRPC(fullKey, amount);
+            }
+        }
 
         RepoLeveling.Logger.LogInfo("Final applied skill points: " +
             $" CrouchRest: {StatsManager.instance.playerUpgradeCrouchRest[PlayerController.instance.playerSteamID]}," +
