@@ -30,9 +30,6 @@ public static class SaveDataManager
     public static ConfigEntry<int> SaveTumbleLaunch;
     public static ConfigEntry<int> SaveTumbleWings;
 
-    // Mapping of full key names (with "playerUpgrade") to their save config entries
-    private static Dictionary<string, ConfigEntry<int>> upgradeKeyToSaveData = null!;
-
     internal static void Initialize()
     {
         ConfigFile save = new(Path.Combine(Application.persistentDataPath, "REPOModData/RepoLeveling/save.cfg"), false);
@@ -92,24 +89,6 @@ public static class SaveDataManager
             new ConfigDescription(
                 "The amount of tumble wings upgrades you've skilled. Set to 0 to regain spent skill points.",
                 new AcceptableValueRange<int>(0, int.MaxValue)));
-
-        // Initialize the mapping dictionary after all config entries are created
-        upgradeKeyToSaveData = new Dictionary<string, ConfigEntry<int>>
-        {
-            { "playerUpgradeCrouchRest", SaveCrouchRest },
-            { "playerUpgradeDeathHeadBattery", SaveDeathHeadBattery },
-            { "playerUpgradeExtraJump", SaveExtraJump },
-            { "playerUpgradeHealth", SaveHealth },
-            { "playerUpgradeLaunch", SaveTumbleLaunch },
-            { "playerUpgradeMapPlayerCount", SaveMapPlayerCount },
-            { "playerUpgradeRange", SaveGrabRange },
-            { "playerUpgradeSpeed", SaveSprintSpeed },
-            { "playerUpgradeStamina", SaveEnergy },
-            { "playerUpgradeStrength", SaveGrabStrength },
-            { "playerUpgradeThrow", SaveGrabThrow },
-            { "playerUpgradeTumbleClimb", SaveTumbleClimb },
-            { "playerUpgradeTumbleWings", SaveTumbleWings }
-        };
     }
 
     public static void ResetProgress()
@@ -176,24 +155,19 @@ public static class SaveDataManager
         string playerSteamID = PlayerAvatar.instance.steamID;
         string playerName = PlayerAvatar.instance.playerName;
 
-        void SendUpgradeRPC(string fullKey, int amount)
-        {
-            string command = fullKey.Substring("playerUpgrade".Length);
-            RepoLeveling.Logger.LogInfo($"Sending RPC to {playerName} ({playerSteamID}) for upgrade {command} with amount {amount}.");
-            punView.RPC("TesterUpgradeCommandRPC", RpcTarget.All, playerSteamID, command, amount);
-        }
-
-        // Loop through all upgrades and apply them via RPC
-        foreach (var kvp in upgradeKeyToSaveData)
-        {
-            string fullKey = kvp.Key;
-            int amount = kvp.Value.Value;
-
-            if (amount > 0)
-            {
-                SendUpgradeRPC(fullKey, amount);
-            }
-        }
+        PunManager.instance.UpgradeDeathHeadBattery(playerSteamID, SaveDeathHeadBattery.Value);
+        PunManager.instance.UpgradeMapPlayerCount(playerSteamID, SaveMapPlayerCount.Value);
+        PunManager.instance.UpgradePlayerCrouchRest(playerSteamID, SaveCrouchRest.Value);
+        PunManager.instance.UpgradePlayerEnergy(playerSteamID, SaveEnergy.Value);
+        PunManager.instance.UpgradePlayerExtraJump(playerSteamID, SaveExtraJump.Value);
+        PunManager.instance.UpgradePlayerGrabRange(playerSteamID, SaveGrabRange.Value);
+        PunManager.instance.UpgradePlayerGrabStrength(playerSteamID, SaveGrabStrength.Value);
+        PunManager.instance.UpgradePlayerThrowStrength(playerSteamID, SaveGrabThrow.Value);
+        PunManager.instance.UpgradePlayerHealth(playerSteamID, SaveHealth.Value);
+        PunManager.instance.UpgradePlayerSprintSpeed(playerSteamID, SaveSprintSpeed.Value);
+        PunManager.instance.UpgradePlayerTumbleClimb(playerSteamID, SaveTumbleClimb.Value);
+        PunManager.instance.UpgradePlayerTumbleLaunch(playerSteamID, SaveTumbleLaunch.Value);
+        PunManager.instance.UpgradePlayerTumbleWings(playerSteamID, SaveTumbleWings.Value);
 
         RepoLeveling.Logger.LogInfo("Final applied skill points: " +
             $" CrouchRest: {StatsManager.instance.playerUpgradeCrouchRest[playerSteamID]}," +
