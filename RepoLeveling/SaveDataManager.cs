@@ -143,13 +143,6 @@ public static class SaveDataManager
             $" TumbleLaunch: {SaveTumbleLaunch.Value}," +
             $" TumbleWings: {SaveTumbleWings.Value}");
 
-        // Example of modifying strength for non-host players:
-        //     StatsManager.instance.playerUpgradeStrength[SemiFunc.PlayerGetSteamID(PlayerAvatar.instance)]++;
-        // Source: https://thunderstore.io/c/repo/p/Lillious_Networks/REPO_Mod_Library/source/
-        //
-        // Example of using RPC to perform upgrades
-        // Source: https://github.com/W1ll-Gale/REPO.BetterTeamUpgrades/tree/main
-
         RepoLeveling.Logger.LogDebug("Applying skill points...");
 
         string playerSteamID = PlayerAvatar.instance.steamID;
